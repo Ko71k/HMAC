@@ -222,18 +222,6 @@ done:
 #define BUFSIZE 1024
 int main(int argc, char *argv[])
 {
-	BYTE* data = (BYTE*)malloc(6 * sizeof(BYTE));
-    if (data == NULL) {
-        // Обработка ошибки выделения памяти
-    }
-
-    // Инициализация данных
-    data[0] = 0x31;
-    data[1] = 0x32;
-    data[2] = 0x33;
-    data[3] = 0x34;
-    data[4] = 0x35;
-    data[5] = 0x36;
 	HCRYPTPROV hProv;
     //Инициализация ключа
     //--------------------------------------------------------------------
@@ -321,6 +309,5 @@ int main(int argc, char *argv[])
 	// Освобождение.
 	CryptDestroyHash(hHash);
 	CryptReleaseContext(hProv, 0);
-    free(data);
     free(rawKey);
 }
