@@ -6,7 +6,7 @@
 #   include <stdlib.h>
 #endif
 #include "WinCryptEx.h"
-#define BUFSIZE 1024
+#define BUFSIZE 64
 #define GR3411LEN  64
 #define B 64 // Длина блока для алгоритма GR3411_2012_256
 #define L 32 // Длина выхода хеш-функции для GR3411_2012_256
@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
     BYTE pbKey[B] = { /* Ваш ключ K */ };
     for(i = 0; i < 64; i++)
     {
-        pbKey[i] = 1;
+        pbKey[i] = 0x0;
     }
     BYTE ipad[B], opad[B];
     BYTE KxorIpad[B], KxorOpad[B];
@@ -143,7 +143,7 @@ int main(int argc, char *argv[])
         HandleError("CryptGetHashParam failed"); 
     }
 
-    printf("HMAC of file %s is: ", argv[1]);
+    printf("HMAC is: ");
     for(i = 0; i < dwHmacLen; i++)
     {
         printf("%c%c", rgbDigits[pbHmac[i] >> 4], rgbDigits[pbHmac[i] & 0xf]);
