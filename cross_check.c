@@ -298,12 +298,14 @@ int main(int argc, char *argv[])
     }
     // Получение хэша.
     keyHash = 32;
-    if(!CryptGetHashParam(hHash, HP_HASHVAL, rgbHash, &keyHash, 0))
+    if (the72keylen > 32)
     {
-        CryptDestroyHash(hHash);
-        CryptReleaseContext(hProv, 0);
-        HandleError("CryptGetHashParam failed"); 
-    }
+        if(!CryptGetHashParam(hHash, HP_HASHVAL, rgbHash, &keyHash, 0))
+        {
+            CryptDestroyHash(hHash);
+            CryptReleaseContext(hProv, 0);
+            HandleError("CryptGetHashParam failed"); 
+        }
     // Уничтожение текущего хэша для создания нового с opad.
     printf("\n");
     printf("key HMAC is: ");
@@ -314,6 +316,7 @@ int main(int argc, char *argv[])
     printf("\n");
 
     CryptDestroyHash(hHash);
+    }
 
 
     // Инициализация ключа
