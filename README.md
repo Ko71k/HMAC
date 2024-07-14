@@ -1,12 +1,12 @@
 Заранее необходимо установить КриптоПро CSP: https://cryptopro.ru/products/csp/downloads#latest_csp50r3
 
 
-``Компиляция
+```Компиляция
 gcc .\selfmade_Hmac.c -o self
 gcc .\2blob.c -o bltn
-``
+```
 
-``Запуск
+```Запуск
 .\self test.txt
 .\bltn test.txt
-``
+```
