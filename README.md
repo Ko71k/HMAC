@@ -1,9 +1,12 @@
 Заранее необходимо установить КриптоПро CSP: https://cryptopro.ru/products/csp/downloads#latest_csp50r3
 
-``
-gcc .\myCreatingHash.c -o myCreatingHash
+
+``Компиляция
+gcc .\selfmade_Hmac.c -o self
+gcc .\2blob.c -o bltn
 ``
 
-``
-.\myCreatingHash.exe test.txt
+``Запуск
+.\self test.txt
+.\bltn test.txt
 ``
