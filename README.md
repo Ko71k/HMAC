@@ -3,7 +3,7 @@
 Компиляция
 ```
 gcc .\selfmade_Hmac.c -o self
-gcc .\2blob.c -o bltn
+gcc .\built_in_hmac.c -o bltn
 ```
 Запуск
 ```
