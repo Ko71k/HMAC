@@ -247,14 +247,7 @@ int main(int argc, char *argv[])
     {
         HandleError("Filename for data or filename for key is absent.\n");
     }
-	// Открытие файла.
-    // if(!fopen_s(&hFile, argv[1], "r+b"))
-    if(!(hFile = fopen(argv[1], "r+b" )))
-    {
-	HandleError("Error opening input file"); 
-    }
-    printf( "The file %s was opened\n", argv[1]);
-
+	
 	// Открытие файла ключа.
     if(!(keyFile = fopen(argv[2], "r+b" )))
     {
@@ -349,7 +342,28 @@ int main(int argc, char *argv[])
     }
     printf("\n");
 
-	
+    Selfmade(argv[1], pbKey);
+    Builtin(argv[1], pbKey);
+}
+
+    int Builtin(CHAR* arg, BYTE pbKey[64]){
+
+    HCRYPTPROV hProv;
+    FILE* hFile;
+    HCRYPTHASH hHash = 0;
+    DWORD cbRead = 0;
+    BYTE rgbFile[BUFSIZE];
+    DWORD cbHash = 0;
+    BYTE rgbHash[GR3411LEN];
+    CHAR rgbDigits[] = "0123456789abcdef";
+    int i;
+    // Открытие файла.
+    // if(!fopen_s(&hFile, argv[1], "r+b"))
+    if(!(hFile = fopen(arg, "r+b" )))
+    {
+	HandleError("Error opening input file"); 
+    }
+    printf( "The file %s was opened\n", arg);
 
 	if (!CryptAcquireContext(
 		&hProv,
@@ -416,16 +430,20 @@ int main(int argc, char *argv[])
 	// Освобождение.
 	CryptDestroyHash(hHash);
 	CryptReleaseContext(hProv, 0);
+}
 
+    int Selfmade(CHAR* arg, BYTE pbKey[64]){
     BYTE pbHmac[L]; // Для HMAC размером 256 бит
     DWORD dwHmacLen = sizeof(pbHmac);
-    hProv = 0;
-    hHash = 0;
-    //FILE* hFile;
-    rgbFile[BUFSIZE];
-    cbRead = 0;
-    rgbHash[GR3411LEN];
-    cbHash = 0;
+    HCRYPTPROV hProv = 0;
+    HCRYPTHASH hHash = 0;
+    CHAR rgbDigits[] = "0123456789abcdef";
+    FILE* hFile;
+    BYTE rgbFile[BUFSIZE];
+    DWORD cbRead = 0;
+    BYTE rgbHash[GR3411LEN];
+    DWORD cbHash = 0;
+    int i;
     //CHAR rgbDigits[] = "0123456789abcdef";
 	// printf("Fina2 key is: ");
     // for(i = 0; i < 64; i++)
@@ -447,8 +465,6 @@ int main(int argc, char *argv[])
     BYTE ipad[B], opad[B];
     BYTE KxorIpad[B], KxorOpad[B];
 
-    
-
     // Инициализация ipad и opad
     for(i = 0; i < B; i++) {
         ipad[i] = 0x36;
@@ -462,11 +478,11 @@ int main(int argc, char *argv[])
     }
 
     // Открытие файла.
-    if(!(hFile = fopen(argv[1], "r+b" )))
+    if(!(hFile = fopen(arg, "r+b" )))
     {
         HandleError("Error opening input file"); 
     }
-    printf( "The file %s was opened\n", argv[1]);
+    printf( "The file %s was opened\n", arg);
 
     // Получение дескриптора криптопровайдера.
     if(!CryptAcquireContext(&hProv, NULL, NULL, PROV_GOST_2012_256, CRYPT_VERIFYCONTEXT))
@@ -561,5 +577,5 @@ int main(int argc, char *argv[])
     fclose(hFile);
 
     return 0;
+    }
 
-}
