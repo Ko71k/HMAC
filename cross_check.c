@@ -346,7 +346,7 @@ int main(int argc, char *argv[])
     Builtin(argv[1], pbKey);
 }
 
-    int Builtin(CHAR* arg, BYTE pbKey[64]){
+    void Builtin(CHAR* arg, BYTE pbKey[64]){
 
     HCRYPTPROV hProv;
     FILE* hFile;
@@ -432,7 +432,7 @@ int main(int argc, char *argv[])
 	CryptReleaseContext(hProv, 0);
 }
 
-    int Selfmade(CHAR* arg, BYTE pbKey[64]){
+    void Selfmade(CHAR* arg, BYTE pbKey[64]){
     BYTE pbHmac[L]; // Для HMAC размером 256 бит
     DWORD dwHmacLen = sizeof(pbHmac);
     HCRYPTPROV hProv = 0;
