@@ -277,11 +277,12 @@ int main(int argc, char *argv[])
 
 	
     // Чтение данных из файла ключа и хэширование этих данных.
-    keyRead = (DWORD)fread(keybFile, 1, 32, keyFile);
+    keyRead = (DWORD)fread(keybFile, 1, 1024, keyFile);
     the72keylen = keyRead;
     if (the72keylen > 32)
     {
     flag = 1;
+    printf("Keylength > 32, hashing...\n");
     do
     {
         keyRead = (DWORD)fread(keybFile, 1, 32, keyFile);
@@ -304,7 +305,7 @@ int main(int argc, char *argv[])
         HandleError("CryptGetHashParam failed"); 
     }
     // Уничтожение текущего хэша для создания нового с opad.
-    
+    printf("\n");
     printf("key HMAC is: ");
     for(i = 0; i < keyHash; i++)
     {
@@ -423,12 +424,12 @@ int main(int argc, char *argv[])
     rgbHash[GR3411LEN];
     cbHash = 0;
     //CHAR rgbDigits[] = "0123456789abcdef";
-	printf("Fina2 key is: ");
-    for(i = 0; i < 64; i++)
-    {
-        printf("%c%c", rgbDigits[pbKey[i] >> 4], rgbDigits[pbKey[i] & 0xf]);
-    }
-	printf("\n");
+	// printf("Fina2 key is: ");
+    // for(i = 0; i < 64; i++)
+    // {
+    //     printf("%c%c", rgbDigits[pbKey[i] >> 4], rgbDigits[pbKey[i] & 0xf]);
+    // }
+	// printf("\n");
 
     // // Инициализация ключа
     // BYTE pbKey[64] = { /* Ваш ключ K */ };
