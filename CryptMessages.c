@@ -238,8 +238,8 @@ void DecryptMessage(BYTE *pbEncryptedBlob, DWORD cbEncryptedBlob, FILE *writeHer
     
     //Запись
     for(i = 0; i < (int)cbEncryptedBlob; i++)
-        fprintf(writeHere, "%02x%c",pbEncryptedBlob[i],(i%brk == (brk - 1))?'\n':' ');
-    fprintf(writeHere, "\n");
+        printf("%02x%c",pbEncryptedBlob[i],(i%brk == (brk - 1))?'\n':' ');
+    printf("\n");
 
     //   В этом примере дескриптор хранилище MY установлен как параметр. 
 
@@ -289,6 +289,7 @@ void DecryptMessage(BYTE *pbEncryptedBlob, DWORD cbEncryptedBlob, FILE *writeHer
 
     printf("Message Decrypted Successfully. \n");
     printf("The decrypted string is: %s\n", (LPSTR) pbDecryptedMessage);
+    fprintf("%s", (LPSTR) pbDecryptedMessage);
 
     free(pbEncryptedBlob);
     free(pbDecryptedMessage);
