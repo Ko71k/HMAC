@@ -57,9 +57,12 @@ int main(int argc, char *argv[])
     long fileSize;
     BYTE* pbContent;
 
-    if (argc != 2 || argv[1] == NULL) {
-        HandleError("The file name is absent.\n");
+    if (argc != 3 || argv[1] == NULL || argv[2] == NULL) {
+        HandleError("The file name or CN is absent.\n");
     }
+    //char* targetCN = "CN=";
+    //targetCN = strcat(targetCN, argv[2]);
+    char* targetCN = argv[2];
     // Открытие файла.
     if (!(hFile = fopen(argv[1], "rb"))) {
         HandleError("Error opening input file");
@@ -141,6 +144,17 @@ int main(int argc, char *argv[])
     }
     GetCertDName(&pRecipientCert->pCertInfo->Subject, &szDName);
     printf("A recipient's certificate has been acquired: %s\n", szDName);
+    printf("The CN is: %s\n", targetCN);
+    //strcat чтобы при поиске имени "name" проверка не проходила при 
+    //переданном параметре "nam", а также если один из других параметров сертификата
+    //содержит в себе "name"
+    strcat(targetCN, ", OU");
+    // Проверка совпадения CN
+    if (!strstr(szDName, targetCN)) {
+        printf("CN does not match. Encryption aborted.\n");
+        CleanUp();
+        return 1;
+    }
 
     // Инициализация структуры с нулем.
     memset(&EncryptAlgorithm, 0, sizeof(CRYPT_ALGORITHM_IDENTIFIER));
@@ -287,7 +301,7 @@ static BOOL isGostType(DWORD dwProvType) {
 
 // GetRecipientCert перечисляет сертификаты в хранилище и находит
 // первый сертификат, обладающий ключем AT_EXCHANGE. Если сертификат
-// сертификат найден, то возвращается указатель на него.  
+// сертификат найден, то возвращается указатель на него.
 PCCERT_CONTEXT GetRecipientCert(HCERTSTORE hCertStore) 
 { 
     PCCERT_CONTEXT pCertContext = NULL; 
