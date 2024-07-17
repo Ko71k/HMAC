@@ -289,7 +289,7 @@ void DecryptMessage(BYTE *pbEncryptedBlob, DWORD cbEncryptedBlob, FILE *writeHer
 
     printf("Message Decrypted Successfully. \n");
     printf("The decrypted string is: %s\n", (LPSTR) pbDecryptedMessage);
-    fprintf("%s", (LPSTR) pbDecryptedMessage);
+    fprintf(writeHere, "%s", (LPSTR) pbDecryptedMessage);
 
     free(pbEncryptedBlob);
     free(pbDecryptedMessage);
