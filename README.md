@@ -1,5 +1,9 @@
+# Требования и информация
 Заранее необходимо установить КриптоПро CSP: https://cryptopro.ru/products/csp/downloads#latest_csp50r3
+Компиляция и запуск производятся из встроенного терминала VS code в Windows 10/Windows 11. gcc version 13.1.0 (Rev6, Built by MSYS2 project)
 
+# Первый блок
+## Список файлов
 myCreatingHash.c = пример получения хэша
 
 selfmade_Hmac.c = реализация HMAC на основе ГОСТ Р 34.11-2012 (CALG_GR3411_2012_256)
@@ -36,3 +40,14 @@ gcc .\cross_check.c -o cc
 .\cc.exe .\test.txt .\somkey.txt
 ```
 Если длина ключа > 32 байт, то для получения HMAC ключ хэшируется. Иначе дополняется нулями до 32.
+
+# Второй блок
+## Список файлов
+
+CryptMessages.c = Шифрование и расшифрование данных из файла, если второй аргумент указывает валидное имя (Common Name) установленного сертификата 
+```
+gcc -o CryptMessages.exe CryptMessages.c -lcrypt32
+```
+```
+.\CryptMessages.exe test.txt Name
+```
