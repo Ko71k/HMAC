@@ -204,7 +204,7 @@ int main(int argc, char *argv[])
 
 
     FILE *writeHere;
-    if (!(writeHere = fopen("output.txt", "w"))) {
+    if (!(writeHere = fopen("output.txt", "wb"))) {
         HandleError("Error opening output file");
     }
     // Вызов функции DecryptMessage, код которой описан после main, для расшифрования сообщения.
@@ -238,8 +238,8 @@ void DecryptMessage(BYTE *pbEncryptedBlob, DWORD cbEncryptedBlob, FILE *writeHer
     
     //Запись
     for(i = 0; i < (int)cbEncryptedBlob; i++)
-        printf("%02x%c",pbEncryptedBlob[i],(i%brk == (brk - 1))?'\n':' ');
-    printf("\n");
+        //printf("%02x%c",pbEncryptedBlob[i],(i%brk == (brk - 1))?'\n':' ');
+    //printf("\n");
 
     //   В этом примере дескриптор хранилище MY установлен как параметр. 
 
@@ -289,7 +289,15 @@ void DecryptMessage(BYTE *pbEncryptedBlob, DWORD cbEncryptedBlob, FILE *writeHer
 
     printf("Message Decrypted Successfully. \n");
     printf("The decrypted string is: %s\n", (LPSTR) pbDecryptedMessage);
-    fprintf(writeHere, "%s", (LPSTR) pbDecryptedMessage);
+    //После первого вызова функции CryptDecryptMessage переменная 
+    //cbDecryptedMessage = 20, что чуть больше настоящего размера
+    //сообщения, однако после второго вызова cbDecryptedMessage = 14,
+    //что является настоящей длиной расшифрованного сообщения
+    printf("The size for the decrypted message is: %d.\n", cbDecryptedMessage);
+    //pbDecryptedMessage[cbDecryptedMessage - 1] = '\0';
+    //fprintf(writeHere, "%s", (LPSTR) pbDecryptedMessage);
+    size_t r1 = fwrite(pbDecryptedMessage, sizeof(BYTE), cbDecryptedMessage - 1, writeHere);
+    printf("Wrote %zu elements out of %d requested to the file, excluding the \\0 symbol.\n", r1, cbDecryptedMessage - 1);
 
     free(pbEncryptedBlob);
     free(pbDecryptedMessage);
